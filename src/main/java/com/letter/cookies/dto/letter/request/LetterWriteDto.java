@@ -25,8 +25,8 @@ public class LetterWriteDto {
                 .member(member)
                 .writerNickname(this.writerNickname)
                 .letterContent(this.letterContent)
-                .xAxis(this.x)
-                .yAxis(this.y)
+                .x(this.x)
+                .y(this.y)
                 .enableCount(4L)
                 .build();
     }
