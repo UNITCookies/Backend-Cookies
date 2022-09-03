@@ -1,20 +1,24 @@
 ---
-name: Feature request
-about: Suggest an idea for this project
-title: ''
+name: Cookies Issue Template
+about: Issue template for cookies
+title: "[Feature]"
+labels: enhancement
+assignees: jola7373
+
+---
+
+---
+name: Cookies Issus Template
+about: Cookies 기본 이슈 템플릿
+title: "[FEAT]"
 labels: ''
 assignees: ''
 
 ---
 
-**Is your feature request related to a problem? Please describe.**
-A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
+## 💡 Issue
+<!-- 이슈에 대한 내용을 설명해주세요. -->
 
-**Describe the solution you'd like**
-A clear and concise description of what you want to happen.
-
-**Describe alternatives you've considered**
-A clear and concise description of any alternative solutions or features you've considered.
-
-**Additional context**
-Add any other context or screenshots about the feature request here.
+## 📝  todo
+- [ ] todo !
+<!-- 해야 할 일들을 적어주세요. -->
