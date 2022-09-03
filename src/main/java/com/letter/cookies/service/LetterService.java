@@ -31,7 +31,8 @@ public class LetterService {
         Letter letter = letterRepository.findById(letterId)
                 .orElseThrow(() -> new BaseException(REQUEST_DATA_NULL));
 
-        if (!readLetterRepository.existsByMemberAndLetter(member, letter) && letter.getMember() != member ) {
+        if (!readLetterRepository.existsByMemberAndLetter(member, letter) &&
+                letter.getMember().getMemberId() != member.getMemberId() ) {
             readLetterRepository.save(ReadLetter.builder().member(member).letter(letter).build());
             if(member.getCookie() < 1){
                 throw new BaseException(REQUEST_NOT_ENOUGH_COOKIE);
@@ -40,7 +41,7 @@ public class LetterService {
         }
 
         return LetterDetailResponse.builder().letterContent(letter.getLetterContent())
-                .letterNickname(letter.getWriterNickname()).x(letter.getXAxis())
-                .y(letter.getYAxis()).enableCount(letter.getEnableCount()).build();
+                .letterNickname(letter.getWriterNickname()).x(letter.getX())
+                .y(letter.getY()).enableCount(letter.getEnableCount()).build();
     }
 }
