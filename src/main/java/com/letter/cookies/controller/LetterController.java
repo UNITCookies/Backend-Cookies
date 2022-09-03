@@ -42,7 +42,7 @@ public class LetterController {
         List<LetterWriteListResponse> letterWriteListResponseList = letterService.getWriteLetterList(memberId);
 
         return new CustomResponse<>(letterWriteListResponseList, GET_WRITER_LETTER_LIST).toResponseEntity();
-    private final LetterService letterService;
+    }
 
     @GetMapping("/{letterId}")
     public ResponseEntity<CustomResponse> getLetterDetail(@PathVariable long letterId,

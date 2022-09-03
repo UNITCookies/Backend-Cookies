@@ -19,8 +19,8 @@ public class LetterWriteResponse {
         this.letterId = letter.getLetterId();
         this.writerNickname = letter.getWriterNickname();
         this.letterContent = letter.getLetterContent();
-        this.x = letter.getXAxis();
-        this.y = letter.getYAxis();
+        this.x = letter.getX();
+        this.y = letter.getY();
         this.enableCount = letter.getEnableCount();
     }
 }

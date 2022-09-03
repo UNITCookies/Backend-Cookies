@@ -37,6 +37,7 @@ public class LetterService {
 
     private final MemberRepository memberRepository;
     private final LetterRepository letterRepository;
+    private final ReadLetterRepository readLetterRepository;
 
     public LetterWriteResponse writeLetter(UUID memberId, LetterWriteDto letterWriteDto) throws BaseException {
 
@@ -84,10 +85,7 @@ public class LetterService {
         }
 
         return letterWriteListResponseList;
-
-    private final LetterRepository letterRepository;
-    private final MemberRepository memberRepository;
-    private final ReadLetterRepository readLetterRepository;
+    }
 
     @Transactional
     public LetterDetailResponse getById(long letterId, String user_id) throws BaseException {

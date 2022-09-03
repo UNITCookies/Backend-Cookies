@@ -27,11 +27,9 @@ public class Letter extends BaseEntity {
 
     private String letterContent;
 
-    @Column(name = "x_axis")
-    private Double xAxis;
+    private Double x;
 
-    @Column(name = "y_axis")
-    private Double yAxis;
+    private Double y;
 
     private Long enableCount;
 
@@ -40,15 +38,11 @@ public class Letter extends BaseEntity {
         this.member = member;
         this.writerNickname = writerNickname;
         this.letterContent = letterContent;
-        this.xAxis = xAxis;
-        this.yAxis = yAxis;
+        this.x = xAxis;
+        this.y = yAxis;
         this.enableCount = enableCount;
 
-    private Double x;
-
-    private Double y;
-
-    private Long enableCount;
+    }
 
     public void biteEaten() {
         this.enableCount--;
