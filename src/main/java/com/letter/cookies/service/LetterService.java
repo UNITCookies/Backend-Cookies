@@ -56,16 +56,16 @@ public class LetterService {
         LocalDateTime endDatetime = LocalDateTime.of(LocalDate.now(), LocalTime.of(23,59,59));   // 오늘 23:59:59
         List<Letter> memberCurrLetterList = letterRepository.findByMemberAndCreatedAtBetween(member, startDatetime, endDatetime);
         System.out.println(memberCurrLetterList.size());
-        if (memberCurrLetterList.size() >= 2) {
-            throw new BaseException(EXCEED_WRITE_LIMIT);
-        }
+//        if (memberCurrLetterList.size() >= 2) {
+//            throw new BaseException(EXCEED_WRITE_LIMIT);
+//        }
 
         String[] randomWriterNickNameList = {"칸초", "오레오", "미쯔", "초코파이", "하리보", "초코송이", "꼬북칩", "비요뜨", "짱구", "배배"};
         Random random = new Random();
         int randIdx = random.nextInt(randomWriterNickNameList.length - 1);
         String randWriterNickName = randomWriterNickNameList[randIdx];
         letterWriteDto.setWriterNickname(randWriterNickName);
-
+        
         Letter updateLetter = letterWriteDto.toEntity(member);
         letterRepository.save(updateLetter);
         member.updateCookie();   // member 의 cookie 개수 1개 추가
