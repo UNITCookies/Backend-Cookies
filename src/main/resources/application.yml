@@ -1,0 +1,16 @@
+spring:
+  profiles:
+    include:  dev
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        format_sql: true
+
+logging:
+  level:
+    dnd.studyplanner: debug
+    org.hibernate.SQL: debug
+    org.hibernate.type: trace
+    com.amazonaws.util.EC2MetadataUtils: ERROR
