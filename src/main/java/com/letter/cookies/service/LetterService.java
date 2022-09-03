@@ -52,17 +52,14 @@ public class LetterService {
 
         Member member = memberRepository.findById(memberId).get();
 
-        // TODO 사용자의 오늘 작성한 편지의 개수가 <= 1 인지 체크 -> >=2 인 경우 작성 불가
         LocalDateTime startDatetime = LocalDateTime.of(LocalDate.now().minusDays(1), LocalTime.of(0,0,0));   // 어제 00:00:00
         LocalDateTime endDatetime = LocalDateTime.of(LocalDate.now(), LocalTime.of(23,59,59));   // 오늘 23:59:59
         List<Letter> memberCurrLetterList = letterRepository.findByMemberAndCreatedAtBetween(member, startDatetime, endDatetime);
         System.out.println(memberCurrLetterList.size());
         if (memberCurrLetterList.size() >= 2) {
-            // 작성 불가
             throw new BaseException(EXCEED_WRITE_LIMIT);
         }
 
-        // 칸초, 오레오, 미쯔, 초코파이, 하리보, 초코송이, 꼬북칩, 비요뜨, 짱구, 배배
         String[] randomWriterNickNameList = {"칸초", "오레오", "미쯔", "초코파이", "하리보", "초코송이", "꼬북칩", "비요뜨", "짱구", "배배"};
         Random random = new Random();
         int randIdx = random.nextInt(randomWriterNickNameList.length - 1);
@@ -71,9 +68,12 @@ public class LetterService {
 
         Letter updateLetter = letterWriteDto.toEntity(member);
         letterRepository.save(updateLetter);
+        member.updateCookie();   // member 의 cookie 개수 1개 추가
+        memberRepository.save(member);
 
         LetterWriteResponse letterWriteResponse = LetterWriteResponse.builder()
                 .letter(updateLetter)
+                .member(member)
                 .build();
 
         return letterWriteResponse;

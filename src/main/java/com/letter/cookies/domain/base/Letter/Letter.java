@@ -34,12 +34,12 @@ public class Letter extends BaseEntity {
     private Long enableCount;
 
     @Builder
-    public Letter(Member member, String writerNickname, String letterContent, Double xAxis, Double yAxis, Long enableCount) {
+    public Letter(Member member, String writerNickname, String letterContent, Double x, Double y, Long enableCount) {
         this.member = member;
         this.writerNickname = writerNickname;
         this.letterContent = letterContent;
-        this.x = xAxis;
-        this.y = yAxis;
+        this.x = x;
+        this.y = y;
         this.enableCount = enableCount;
 
     }

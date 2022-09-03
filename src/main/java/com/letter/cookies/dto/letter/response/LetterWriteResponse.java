@@ -1,6 +1,7 @@
 package com.letter.cookies.dto.letter.response;
 
 import com.letter.cookies.domain.base.Letter.Letter;
+import com.letter.cookies.domain.base.Member.Member;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -13,14 +14,16 @@ public class LetterWriteResponse {
     private Double x;
     private Double y;
     private Long enableCount;
+    private Long cookie;
 
     @Builder
-    public LetterWriteResponse(Letter letter) {
+    public LetterWriteResponse(Letter letter, Member member) {
         this.letterId = letter.getLetterId();
         this.writerNickname = letter.getWriterNickname();
         this.letterContent = letter.getLetterContent();
         this.x = letter.getX();
         this.y = letter.getY();
         this.enableCount = letter.getEnableCount();
+        this.cookie = member.getCookie();
     }
 }
