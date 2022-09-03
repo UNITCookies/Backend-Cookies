@@ -3,9 +3,11 @@ package com.letter.cookies.dto.letter.request;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.UUID;
 
+@Slf4j
 @Getter
 @NoArgsConstructor
 public class LetterMapRequest {
@@ -30,6 +32,25 @@ public class LetterMapRequest {
         this.startY = startY;
         this.endX = endX;
         this.endY = endY;
+    }
+
+    public LetterMapRequest setStartXY() {
+        if (endX > startX) {
+            Double temp = startX;
+            this.startX = endX;
+            this.endX = temp;
+            log.info("startX: {}", startX);
+            log.info("endX: {}", endX);
+        }
+        if (endY > startY) {
+            Double temp = startY;
+            this.startY = endY;
+            this.endY = temp;
+            log.info("startY: {}", startY);
+            log.info("endY: {}", endY);
+        }
+
+        return this;
     }
 
 }

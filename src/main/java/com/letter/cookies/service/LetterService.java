@@ -134,14 +134,16 @@ public class LetterService {
     public Map<String, List<LetterMapResponse>> getLetterWithinRadius(LetterMapRequest letterMapRequest) {
         Map<String, List<LetterMapResponse>> resultLetterList = new HashMap<>();
 
+        LetterMapRequest request = letterMapRequest.setStartXY();
+
         log.info("[LetterService] Find All Letter");
-        List<LetterMapResponse> letterList = letterRepository.findByXBetweenAndYBetween(letterMapRequest.getStartX(), letterMapRequest.getEndX(), letterMapRequest.getStartY(), letterMapRequest.getEndY()).stream()
+        List<LetterMapResponse> letterList = letterRepository.findByXBetweenAndYBetween(request.getStartX(), request.getEndX(), request.getStartY(), request.getEndY()).stream()
                 .map(LetterMapResponse::new)
                 .collect(Collectors.toList());
         resultLetterList.put("all", letterList);
 
         log.info("[LetterService] Find Letter within radius");
-        List<LetterMapResponse> letterListWithinRadius = letterRepository.findWithinRadius(letterMapRequest.getCurMemberX(), letterMapRequest.getCurMemberY()).stream()
+        List<LetterMapResponse> letterListWithinRadius = letterRepository.findWithinRadius(request.getCurMemberX(), request.getCurMemberY()).stream()
                 .map(LetterMapResponse::new)
                 .collect(Collectors.toList());
         resultLetterList.put("radius", letterListWithinRadius);
