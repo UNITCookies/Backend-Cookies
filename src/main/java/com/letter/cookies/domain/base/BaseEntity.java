@@ -1,8 +1,5 @@
 package com.letter.cookies.domain.base;
 
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
-
 import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
 
@@ -12,14 +9,16 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import lombok.Getter;
 
+import java.time.LocalDateTime;
+
 @Getter
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
 public class BaseEntity {
 
     @CreatedDate
-    private Timestamp createdAt;
+    private LocalDateTime createdAt;
 
     @LastModifiedDate
-    private Timestamp updatedAt;
+    private LocalDateTime updatedAt;
 }

@@ -30,7 +30,7 @@ public class LetterWriteListResponse {
         this.x = letter.getX();
         this.y = letter.getY();
         this.enableCount = letter.getEnableCount();
-        this.createdAt = letter.getCreatedAt().toLocalDateTime().toLocalDate();
-        this.updatedAt = letter.getUpdatedAt().toLocalDateTime().toLocalDate();
+        this.createdAt = letter.getCreatedAt().toLocalDate();
+        this.updatedAt = letter.getUpdatedAt().toLocalDate();
     }
 }
