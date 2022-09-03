@@ -34,7 +34,6 @@ import static com.letter.cookies.dto.response.CustomResponseStatus.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.stream.Collectors;
 
 
 @Slf4j
@@ -109,7 +108,12 @@ public class LetterService {
             if (member.getCookie() < 1) {
                 throw new BaseException(REQUEST_NOT_ENOUGH_COOKIE);
             }
+
             letter.biteEaten();
+            member.cookieSpent();
+
+            letterRepository.save(letter);
+            memberRepository.save(member);
         }
 
         return LetterDetailResponse.builder().letterContent(letter.getLetterContent())
