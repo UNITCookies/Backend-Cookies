@@ -35,14 +35,14 @@ public class LetterMapRequest {
     }
 
     public LetterMapRequest setStartXY() {
-        if (endX > startX) {
+        if (endX < startX) {
             Double temp = startX;
             this.startX = endX;
             this.endX = temp;
             log.info("startX: {}", startX);
             log.info("endX: {}", endX);
         }
-        if (endY > startY) {
+        if (endY < startY) {
             Double temp = startY;
             this.startY = endY;
             this.endY = temp;
