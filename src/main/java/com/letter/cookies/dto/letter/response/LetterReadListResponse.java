@@ -33,8 +33,8 @@ public class LetterReadListResponse {
         this.x = letter.getX();
         this.y = letter.getY();
         this.enableCount = letter.getEnableCount();
-        this.createdAt = letter.getCreatedAt().toLocalDateTime().toLocalDate();
-        this.updatedAt = letter.getUpdatedAt().toLocalDateTime().toLocalDate();
+        this.createdAt = letter.getCreatedAt().toLocalDate();
+        this.updatedAt = letter.getUpdatedAt().toLocalDate();
     }
 
     public static List<LetterReadListResponse> listOf(List<Letter> letterList) {
