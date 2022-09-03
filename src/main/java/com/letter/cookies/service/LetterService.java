@@ -4,6 +4,7 @@ import com.letter.cookies.domain.base.Letter.Letter;
 import com.letter.cookies.domain.base.Letter.LetterRepository;
 import com.letter.cookies.domain.base.Member.Member;
 import com.letter.cookies.domain.base.Member.MemberRepository;
+import com.letter.cookies.dto.letter.request.LetterMapStringRequest;
 import com.letter.cookies.dto.letter.request.LetterWriteDto;
 import com.letter.cookies.dto.letter.request.LetterMapRequest;
 import com.letter.cookies.dto.letter.response.LetterWriteListResponse;
@@ -116,14 +117,17 @@ public class LetterService {
     }
 
     @Transactional
-    public Map<String, List<LetterMapResponse>> getLetterWithinRadius(LetterMapRequest letterMapRequest) {
+    public Map<String, List<LetterMapResponse>> getLetterWithinRadius(LetterMapStringRequest letterMapStringRequest) {
         Map<String, List<LetterMapResponse>> resultLetterList = new HashMap<>();
+        LetterMapRequest letterMapRequest = letterMapStringRequest.toMapRequest();
 
+        log.info("지도 내의 모든 편지 조회");
         List<LetterMapResponse> letterList = letterRepository.findByXBetweenAndYBetween(letterMapRequest.getStartX(), letterMapRequest.getEndX(), letterMapRequest.getStartY(), letterMapRequest.getEndY()).stream()
                 .map(LetterMapResponse::new)
                 .collect(Collectors.toList());
         resultLetterList.put("all", letterList);
 
+        log.info("반경 내의 편지 조회");
         List<LetterMapResponse> letterListWithinRadius = letterRepository.findWithinRadius(letterMapRequest.getCurMemberX(), letterMapRequest.getCurMemberY()).stream()
                 .map(LetterMapResponse::new)
                 .collect(Collectors.toList());

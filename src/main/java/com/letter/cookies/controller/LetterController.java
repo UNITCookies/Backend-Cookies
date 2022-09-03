@@ -1,5 +1,6 @@
 package com.letter.cookies.controller;
 
+import com.letter.cookies.dto.letter.request.LetterMapStringRequest;
 import com.letter.cookies.dto.letter.request.LetterWriteDto;
 import com.letter.cookies.dto.letter.request.LetterMapRequest;
 import com.letter.cookies.dto.letter.response.LetterWriteListResponse;
@@ -61,9 +62,9 @@ public class LetterController {
     }
 
     @GetMapping("/map")
-    public ResponseEntity<CustomResponse> getLetterWithinRadius(@RequestBody LetterMapRequest letterMapRequest) {
+    public ResponseEntity<CustomResponse> getLetterWithinRadius(@RequestBody LetterMapStringRequest letterMapStringRequest) {
         try {
-            Map<String, List<LetterMapResponse>> letterList = letterService.getLetterWithinRadius(letterMapRequest);
+            Map<String, List<LetterMapResponse>> letterList = letterService.getLetterWithinRadius(letterMapStringRequest);
             return new CustomResponse<>(letterList).toResponseEntity();
         } catch (Exception e) {
             return new CustomResponse<>(e.getMessage()).toResponseEntity();
