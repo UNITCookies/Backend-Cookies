@@ -18,7 +18,7 @@ public interface LetterRepository extends JpaRepository<Letter, Long> {
 
     List<Letter> findByXBetweenAndYBetween(Double startX, Double endX, Double startY, Double endY);
 
-    @Query(value = "select *, (6371*acos(cos(radians(x))*cos(radians(?1))*cos(radians(?2)-radians(y)) \n" +
+    @Query(value = "select *, (6371*acos(cos(radians(x))*cos(radians(?1))*cos(radians(?2)-radians(y))\n" +
             "+sin(radians(x))*sin(radians(?1)))) AS distance\n" +
             "from letter\n" +
             "where x between ?3 and ?4 and y between ?5 and ?6\n" +
