@@ -43,6 +43,15 @@ public class Letter extends BaseEntity {
         this.xAxis = xAxis;
         this.yAxis = yAxis;
         this.enableCount = enableCount;
+
+    private Double x;
+
+    private Double y;
+
+    private Long enableCount;
+
+    public void biteEaten() {
+        this.enableCount--;
     }
 
 }

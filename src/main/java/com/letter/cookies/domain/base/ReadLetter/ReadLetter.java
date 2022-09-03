@@ -4,6 +4,7 @@ import com.letter.cookies.domain.base.BaseEntity;
 import com.letter.cookies.domain.base.Letter.Letter;
 import com.letter.cookies.domain.base.Member.Member;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -27,4 +28,17 @@ public class ReadLetter extends BaseEntity {
     @JoinColumn(name = "letter_id")
     private Letter letter;
 
+    @Builder
+    public ReadLetter(Member member, Letter letter) {
+        setMember(member);
+        setLetter(letter);
+    }
+
+    private void setMember(Member member) {
+        this.member = member;
+    }
+
+    private void setLetter(Letter letter) {
+        this.letter = letter;
+    }
 }

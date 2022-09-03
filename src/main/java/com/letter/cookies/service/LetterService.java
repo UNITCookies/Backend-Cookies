@@ -8,10 +8,18 @@ import com.letter.cookies.dto.letter.request.LetterWriteDto;
 import com.letter.cookies.dto.letter.response.LetterWriteListResponse;
 import com.letter.cookies.dto.letter.response.LetterWriteResponse;
 import com.letter.cookies.dto.response.CustomResponse;
+import com.letter.cookies.domain.base.ReadLetter.ReadLetter;
+import com.letter.cookies.domain.base.ReadLetter.ReadLetterRepository;
+import com.letter.cookies.dto.letter.response.LetterDetailResponse;
 import com.letter.cookies.exception.BaseException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.UUID;
+
+import static com.letter.cookies.dto.response.CustomResponseStatus.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -24,6 +32,7 @@ import static com.letter.cookies.dto.response.CustomResponseStatus.EXCEED_WRITER
 @Slf4j
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class LetterService {
 
     private final MemberRepository memberRepository;
@@ -75,5 +84,30 @@ public class LetterService {
         }
 
         return letterWriteListResponseList;
+
+    private final LetterRepository letterRepository;
+    private final MemberRepository memberRepository;
+    private final ReadLetterRepository readLetterRepository;
+
+    @Transactional
+    public LetterDetailResponse getById(long letterId, String user_id) throws BaseException {
+        Member member = memberRepository.findById(UUID.fromString(user_id))
+                .orElseThrow(() -> new BaseException(REQUEST_DATA_DOES_NOT_EXISTS));
+        Letter letter = letterRepository.findById(letterId)
+                .orElseThrow(() -> new BaseException(REQUEST_DATA_NULL));
+
+        if (!readLetterRepository.existsByMemberAndLetter(member, letter) &&
+                letter.getMember().getMemberId() != member.getMemberId() ) {
+            readLetterRepository.save(ReadLetter.builder().member(member).letter(letter).build());
+            if(member.getCookie() < 1){
+                throw new BaseException(REQUEST_NOT_ENOUGH_COOKIE);
+            }
+            letter.biteEaten();
+        }
+
+        return LetterDetailResponse.builder().letterContent(letter.getLetterContent())
+                .letterNickname(letter.getWriterNickname()).x(letter.getX())
+                .y(letter.getY()).enableCount(letter.getEnableCount()).build();
+
     }
 }

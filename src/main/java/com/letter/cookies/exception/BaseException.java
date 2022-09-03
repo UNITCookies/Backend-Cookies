@@ -11,4 +11,5 @@ import lombok.NoArgsConstructor;
 public class BaseException extends Exception {
 
     private CustomResponseStatus status;
+
 }
