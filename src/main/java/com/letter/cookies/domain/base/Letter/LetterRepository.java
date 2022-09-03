@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -13,5 +14,7 @@ public interface LetterRepository extends JpaRepository<Letter, Long> {
 
     List<Letter> findByMember(Member member);
 
-    List<Letter> findByMemberAndCreatedAt(Member member, LocalDate createdAt);
+//    List<Letter> findByMemberAndCreatedAt(Member member, LocalDateTime createdAt);
+
+    List<Letter> findByMemberAndCreatedAtBetween(Member member, LocalDateTime startDateTime, LocalDateTime endDateTime);
 }
