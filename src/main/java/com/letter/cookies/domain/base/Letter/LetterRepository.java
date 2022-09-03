@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -25,4 +26,7 @@ public interface LetterRepository extends JpaRepository<Letter, Long> {
             nativeQuery = true)
     List<Letter> findWithinRadius(Double curMemberX, Double curMemberY);
 
+//    List<Letter> findByMemberAndCreatedAt(Member member, LocalDateTime createdAt);
+
+    List<Letter> findByMemberAndCreatedAtBetween(Member member, LocalDateTime startDateTime, LocalDateTime endDateTime);
 }

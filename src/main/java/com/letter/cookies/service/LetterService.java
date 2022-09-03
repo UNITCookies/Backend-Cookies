@@ -9,7 +9,6 @@ import com.letter.cookies.dto.letter.request.LetterMapRequest;
 import com.letter.cookies.dto.letter.response.LetterWriteListResponse;
 import com.letter.cookies.dto.letter.response.LetterWriteResponse;
 import com.letter.cookies.dto.letter.response.LetterMapResponse;
-import com.letter.cookies.dto.response.CustomResponse;
 import com.letter.cookies.domain.base.ReadLetter.ReadLetter;
 import com.letter.cookies.domain.base.ReadLetter.ReadLetterRepository;
 import com.letter.cookies.dto.letter.response.LetterDetailResponse;
@@ -25,17 +24,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.UUID;
 
 import static com.letter.cookies.dto.response.CustomResponseStatus.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
-import java.util.UUID;
-
-import static com.letter.cookies.dto.response.CustomResponseStatus.EXCEED_WRITER_LIMIT;
 
 @Slf4j
 @Service
@@ -47,19 +44,20 @@ public class LetterService {
     private final LetterRepository letterRepository;
     private final ReadLetterRepository readLetterRepository;
 
+    @Transactional(readOnly = false)
     public LetterWriteResponse writeLetter(UUID memberId, LetterWriteDto letterWriteDto) throws BaseException {
 
         Member member = memberRepository.findById(memberId).get();
 
         // TODO 사용자의 오늘 작성한 편지의 개수가 <= 1 인지 체크 -> >=2 인 경우 작성 불가
-        int currLetterCnt = 0;
-        LocalDate today = LocalDate.now();
-        List<Letter> memberCurrLetterList = letterRepository.findByMemberAndCreatedAt(member, today);
+        LocalDateTime startDatetime = LocalDateTime.of(LocalDate.now().minusDays(1), LocalTime.of(0,0,0));   // 어제 00:00:00
+        LocalDateTime endDatetime = LocalDateTime.of(LocalDate.now(), LocalTime.of(23,59,59));   // 오늘 23:59:59
+        List<Letter> memberCurrLetterList = letterRepository.findByMemberAndCreatedAtBetween(member, startDatetime, endDatetime);
+        System.out.println(memberCurrLetterList.size());
         if (memberCurrLetterList.size() >= 2) {
             // 작성 불가
-            throw new BaseException(EXCEED_WRITER_LIMIT);
+            throw new BaseException(EXCEED_WRITE_LIMIT);
         }
-
 
         // 칸초, 오레오, 미쯔, 초코파이, 하리보, 초코송이, 꼬북칩, 비요뜨, 짱구, 배배
         String[] randomWriterNickNameList = {"칸초", "오레오", "미쯔", "초코파이", "하리보", "초코송이", "꼬북칩", "비요뜨", "짱구", "배배"};
