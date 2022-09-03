@@ -26,9 +26,9 @@ public class Letter extends BaseEntity {
 
     private String letterContent;
 
-    private Float x;
+    private Double x;
 
-    private Float y;
+    private Double y;
 
     private Long enableCount;
 
