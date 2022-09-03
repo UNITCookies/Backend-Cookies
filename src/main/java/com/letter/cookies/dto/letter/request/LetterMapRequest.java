@@ -9,8 +9,6 @@ import java.util.UUID;
 @NoArgsConstructor
 public class LetterMapRequest {
 
-    private UUID memberId;
-
     private Double curMemberX;
 
     private Double curMemberY;
