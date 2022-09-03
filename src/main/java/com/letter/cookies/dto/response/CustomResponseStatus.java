@@ -12,6 +12,8 @@ public enum CustomResponseStatus {
     SAVE_LETTER(true, 1100, "편지 작성 성공", HttpStatus.OK),
     GET_WRITER_LETTER_LIST(true, 1101, "작성한 편지 목록 조회 성공", HttpStatus.OK),
 
+    GET_READ_LETTER_LIST(true, 1101, "수집한 편지 목록 조회 성공", HttpStatus.OK),
+
     // 4000번대 오류 응답 코드
     REQUEST_DATA_NULL(false, 4000, "필수 항목이 입력되지 않았습니다", HttpStatus.BAD_REQUEST),
     EXCEED_WRITER_LIMIT(false, 4100, "일일 편지 작성 개수 초과", HttpStatus.FORBIDDEN),

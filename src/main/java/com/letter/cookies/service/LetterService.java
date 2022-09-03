@@ -7,7 +7,7 @@ import com.letter.cookies.domain.base.Member.MemberRepository;
 import com.letter.cookies.dto.letter.request.LetterWriteDto;
 import com.letter.cookies.dto.letter.response.LetterWriteListResponse;
 import com.letter.cookies.dto.letter.response.LetterWriteResponse;
-import com.letter.cookies.dto.response.CustomResponse;
+import com.letter.cookies.dto.letter.response.LetterReadListResponse;
 import com.letter.cookies.domain.base.ReadLetter.ReadLetter;
 import com.letter.cookies.domain.base.ReadLetter.ReadLetterRepository;
 import com.letter.cookies.dto.letter.response.LetterDetailResponse;
@@ -25,7 +25,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static com.letter.cookies.dto.response.CustomResponseStatus.EXCEED_WRITER_LIMIT;
 
@@ -95,9 +95,9 @@ public class LetterService {
                 .orElseThrow(() -> new BaseException(REQUEST_DATA_NULL));
 
         if (!readLetterRepository.existsByMemberAndLetter(member, letter) &&
-                letter.getMember().getMemberId() != member.getMemberId() ) {
+                letter.getMember().getMemberId() != member.getMemberId()) {
             readLetterRepository.save(ReadLetter.builder().member(member).letter(letter).build());
-            if(member.getCookie() < 1){
+            if (member.getCookie() < 1) {
                 throw new BaseException(REQUEST_NOT_ENOUGH_COOKIE);
             }
             letter.biteEaten();
@@ -107,5 +107,13 @@ public class LetterService {
                 .letterNickname(letter.getWriterNickname()).x(letter.getX())
                 .y(letter.getY()).enableCount(letter.getEnableCount()).build();
 
+    }
+
+    public List<LetterReadListResponse> getByMemberReadLetter(UUID userId) throws BaseException {
+        Member member = memberRepository.findById(userId)
+                .orElseThrow(() -> new BaseException(REQUEST_USER_NOT_EXISTS));
+        List<ReadLetter> readLetters = readLetterRepository.findAllByMember(member);
+        return LetterReadListResponse.listOf(readLetters.stream().map(readLetter ->
+                readLetter.getLetter()).collect(Collectors.toList()));
     }
 }
