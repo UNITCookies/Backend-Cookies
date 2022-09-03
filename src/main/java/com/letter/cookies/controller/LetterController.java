@@ -2,9 +2,11 @@ package com.letter.cookies.controller;
 
 import com.letter.cookies.dto.letter.request.LetterWriteDto;
 import com.letter.cookies.dto.letter.response.LetterReadListResponse;
+import com.letter.cookies.dto.letter.request.LetterMapRequest;
 import com.letter.cookies.dto.letter.response.LetterWriteListResponse;
 import com.letter.cookies.dto.letter.response.LetterWriteResponse;
 import com.letter.cookies.dto.letter.response.LetterDetailResponse;
+import com.letter.cookies.dto.letter.response.LetterMapResponse;
 import com.letter.cookies.dto.response.CustomResponse;
 import com.letter.cookies.exception.BaseException;
 import com.letter.cookies.service.LetterService;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.Map;
 
 import static com.letter.cookies.dto.response.CustomResponseStatus.*;
 import static com.letter.cookies.dto.response.CustomResponseStatus.SUCCESS;
@@ -69,4 +72,15 @@ public class LetterController {
         }
 
     }
+
+    @GetMapping("/map")
+    public ResponseEntity<CustomResponse> getLetterWithinRadius(@RequestBody LetterMapRequest letterMapRequest) {
+        try {
+            Map<String, List<LetterMapResponse>> letterList = letterService.getLetterWithinRadius(letterMapRequest);
+            return new CustomResponse<>(letterList).toResponseEntity();
+        } catch (Exception e) {
+            return new CustomResponse<>(e.getMessage()).toResponseEntity();
+        }
+    }
+
 }
