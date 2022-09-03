@@ -1,6 +1,7 @@
 package com.letter.cookies.domain.base.ReadLetter;
 
 import com.letter.cookies.domain.base.BaseEntity;
+import com.letter.cookies.domain.base.Letter.Letter;
 import com.letter.cookies.domain.base.Member.Member;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,6 +25,6 @@ public class ReadLetter extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "letter_id")
-    private Member letter;
+    private Letter letter;
 
 }
