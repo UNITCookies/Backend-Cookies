@@ -27,8 +27,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import static com.letter.cookies.dto.response.CustomResponseStatus.EXCEED_WRITER_LIMIT;
-
 @Slf4j
 @Service
 @RequiredArgsConstructor

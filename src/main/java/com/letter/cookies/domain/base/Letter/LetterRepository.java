@@ -14,7 +14,5 @@ public interface LetterRepository extends JpaRepository<Letter, Long> {
 
     List<Letter> findByMember(Member member);
 
-//    List<Letter> findByMemberAndCreatedAt(Member member, LocalDateTime createdAt);
-
     List<Letter> findByMemberAndCreatedAtBetween(Member member, LocalDateTime startDateTime, LocalDateTime endDateTime);
 }
