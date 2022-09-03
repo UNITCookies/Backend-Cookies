@@ -32,4 +32,8 @@ public class Letter extends BaseEntity {
 
     private Long enableCount;
 
+    public void biteEaten() {
+        this.enableCount--;
+    }
+
 }
