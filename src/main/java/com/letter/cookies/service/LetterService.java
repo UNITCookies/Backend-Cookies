@@ -1,9 +1,79 @@
 package com.letter.cookies.service;
 
+import com.letter.cookies.domain.base.Letter.Letter;
+import com.letter.cookies.domain.base.Letter.LetterRepository;
+import com.letter.cookies.domain.base.Member.Member;
+import com.letter.cookies.domain.base.Member.MemberRepository;
+import com.letter.cookies.dto.letter.request.LetterWriteDto;
+import com.letter.cookies.dto.letter.response.LetterWriteListResponse;
+import com.letter.cookies.dto.letter.response.LetterWriteResponse;
+import com.letter.cookies.dto.response.CustomResponse;
+import com.letter.cookies.exception.BaseException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import java.util.UUID;
+
+import static com.letter.cookies.dto.response.CustomResponseStatus.EXCEED_WRITER_LIMIT;
+
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class LetterService {
+
+    private final MemberRepository memberRepository;
+    private final LetterRepository letterRepository;
+
+    public LetterWriteResponse writeLetter(UUID memberId, LetterWriteDto letterWriteDto) throws BaseException {
+
+        Member member = memberRepository.findById(memberId).get();
+
+        // TODO 사용자의 오늘 작성한 편지의 개수가 <= 1 인지 체크 -> >=2 인 경우 작성 불가
+        int currLetterCnt = 0;
+        LocalDate today = LocalDate.now();
+        List<Letter> memberCurrLetterList = letterRepository.findByMemberAndCreatedAt(member, today);
+        if (memberCurrLetterList.size() >= 2) {
+            // 작성 불가
+            throw new BaseException(EXCEED_WRITER_LIMIT);
+        }
+
+
+        // 칸초, 오레오, 미쯔, 초코파이, 하리보, 초코송이, 꼬북칩, 비요뜨, 짱구, 배배
+        String[] randomWriterNickNameList = {"칸초", "오레오", "미쯔", "초코파이", "하리보", "초코송이", "꼬북칩", "비요뜨", "짱구", "배배"};
+        Random random = new Random();
+        int randIdx = random.nextInt(randomWriterNickNameList.length - 1);
+        String randWriterNickName = randomWriterNickNameList[randIdx];
+        letterWriteDto.setWriterNickname(randWriterNickName);
+
+        Letter updateLetter = letterWriteDto.toEntity(member);
+        letterRepository.save(updateLetter);
+
+        LetterWriteResponse letterWriteResponse = LetterWriteResponse.builder()
+                .letter(updateLetter)
+                .build();
+
+        return letterWriteResponse;
+    }
+
+    public List<LetterWriteListResponse> getWriteLetterList(UUID memberId) {
+
+        List<LetterWriteListResponse> letterWriteListResponseList = new ArrayList<>();
+        Member member = memberRepository.findById(memberId).get();
+
+        List<Letter> memberLetterList = letterRepository.findByMember(member);
+        for (Letter letter : memberLetterList) {
+            LetterWriteListResponse letterWriteListResponse = LetterWriteListResponse.builder()
+                    .letter(letter)
+                    .build();
+
+            letterWriteListResponseList.add(letterWriteListResponse);
+        }
+
+        return letterWriteListResponseList;
+    }
 }

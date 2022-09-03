@@ -3,6 +3,7 @@ package com.letter.cookies.domain.base.Letter;
 import com.letter.cookies.domain.base.BaseEntity;
 import com.letter.cookies.domain.base.Member.Member;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -26,10 +27,22 @@ public class Letter extends BaseEntity {
 
     private String letterContent;
 
-    private Float xAxis;
+    @Column(name = "x_axis")
+    private Double xAxis;
 
-    private Float yAxis;
+    @Column(name = "y_axis")
+    private Double yAxis;
 
     private Long enableCount;
+
+    @Builder
+    public Letter(Member member, String writerNickname, String letterContent, Double xAxis, Double yAxis, Long enableCount) {
+        this.member = member;
+        this.writerNickname = writerNickname;
+        this.letterContent = letterContent;
+        this.xAxis = xAxis;
+        this.yAxis = yAxis;
+        this.enableCount = enableCount;
+    }
 
 }

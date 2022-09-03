@@ -4,8 +4,10 @@ import com.letter.cookies.domain.base.Letter.Letter;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.sql.Timestamp;
+
 @Getter
-public class LetterWriteResponse {
+public class LetterWriteListResponse {
 
     private Long letterId;
     private String writerNickname;
@@ -13,14 +15,18 @@ public class LetterWriteResponse {
     private Double x;
     private Double y;
     private Long enableCount;
+    private Timestamp createdAt;
+    private Timestamp updatedAt;
 
     @Builder
-    public LetterWriteResponse(Letter letter) {
+    public LetterWriteListResponse(Letter letter) {
         this.letterId = letter.getLetterId();
         this.writerNickname = letter.getWriterNickname();
         this.letterContent = letter.getLetterContent();
         this.x = letter.getXAxis();
         this.y = letter.getYAxis();
         this.enableCount = letter.getEnableCount();
+        this.createdAt = letter.getCreatedAt();
+        this.updatedAt = letter.getUpdatedAt();
     }
 }
