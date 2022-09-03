@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 import static com.letter.cookies.dto.response.CustomResponseStatus.SUCCESS;
 
 @RestController
@@ -20,7 +22,7 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping
-    public ResponseEntity<CustomResponse> createUser(@RequestBody TempLoginRequest tempLoginRequest){
+    public ResponseEntity<CustomResponse> createUser(@RequestBody @Valid TempLoginRequest tempLoginRequest){
         TempLoginResponse tempLoginResponse = memberService.createMember(tempLoginRequest);
         return new CustomResponse<>(tempLoginResponse, SUCCESS).toResponseEntity();
     }
