@@ -62,10 +62,10 @@ public class LetterController {
 
     @GetMapping("/{letterId}")
     public ResponseEntity<CustomResponse> getLetterDetail(@PathVariable long letterId,
-                                                          @RequestParam String userId)
+                                                          @RequestParam UUID memberId)
             throws BaseException {
         try {
-            LetterDetailResponse letterDetailResponse = letterService.getById(letterId, userId);
+            LetterDetailResponse letterDetailResponse = letterService.getById(letterId, memberId);
             return new CustomResponse<>(letterDetailResponse, SUCCESS).toResponseEntity();
         } catch (BaseException e) {
             return new CustomResponse<>(e.getStatus()).toResponseEntity();

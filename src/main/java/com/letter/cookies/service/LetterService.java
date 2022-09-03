@@ -97,8 +97,8 @@ public class LetterService {
     }
 
     @Transactional
-    public LetterDetailResponse getById(long letterId, String user_id) throws BaseException {
-        Member member = memberRepository.findById(UUID.fromString(user_id))
+    public LetterDetailResponse getById(long letterId, UUID memberId) throws BaseException {
+        Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new BaseException(REQUEST_DATA_DOES_NOT_EXISTS));
         Letter letter = letterRepository.findById(letterId)
                 .orElseThrow(() -> new BaseException(REQUEST_DATA_NULL));
