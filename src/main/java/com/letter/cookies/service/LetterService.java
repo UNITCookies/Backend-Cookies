@@ -5,17 +5,25 @@ import com.letter.cookies.domain.base.Letter.LetterRepository;
 import com.letter.cookies.domain.base.Member.Member;
 import com.letter.cookies.domain.base.Member.MemberRepository;
 import com.letter.cookies.dto.letter.request.LetterWriteDto;
+import com.letter.cookies.dto.letter.request.LetterMapRequest;
 import com.letter.cookies.dto.letter.response.LetterWriteListResponse;
 import com.letter.cookies.dto.letter.response.LetterWriteResponse;
+import com.letter.cookies.dto.letter.response.LetterMapResponse;
 import com.letter.cookies.dto.response.CustomResponse;
 import com.letter.cookies.domain.base.ReadLetter.ReadLetter;
 import com.letter.cookies.domain.base.ReadLetter.ReadLetterRepository;
 import com.letter.cookies.dto.letter.response.LetterDetailResponse;
 import com.letter.cookies.exception.BaseException;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import java.util.UUID;
 
@@ -108,4 +116,22 @@ public class LetterService {
                 .y(letter.getY()).enableCount(letter.getEnableCount()).build();
 
     }
+
+    @Transactional
+    public Map<String, List<LetterMapResponse>> getLetterWithinRadius(LetterMapRequest letterMapRequest) {
+        Map<String, List<LetterMapResponse>> resultLetterList = new HashMap<>();
+
+        List<LetterMapResponse> letterList = letterRepository.findByXBetweenAndYBetween(letterMapRequest.getStartX(), letterMapRequest.getEndX(), letterMapRequest.getStartY(), letterMapRequest.getEndY()).stream()
+                .map(LetterMapResponse::new)
+                .collect(Collectors.toList());
+        resultLetterList.put("all", letterList);
+
+        List<LetterMapResponse> letterListWithinRadius = letterRepository.findWithinRadius(letterMapRequest.getCurMemberX(), letterMapRequest.getCurMemberY()).stream()
+                .map(LetterMapResponse::new)
+                .collect(Collectors.toList());
+        resultLetterList.put("radius", letterListWithinRadius);
+
+        return resultLetterList;
+    }
+
 }
