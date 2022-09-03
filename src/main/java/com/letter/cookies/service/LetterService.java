@@ -4,7 +4,6 @@ import com.letter.cookies.domain.base.Letter.Letter;
 import com.letter.cookies.domain.base.Letter.LetterRepository;
 import com.letter.cookies.domain.base.Member.Member;
 import com.letter.cookies.domain.base.Member.MemberRepository;
-import com.letter.cookies.dto.letter.request.LetterMapStringRequest;
 import com.letter.cookies.dto.letter.request.LetterWriteDto;
 import com.letter.cookies.dto.letter.request.LetterMapRequest;
 import com.letter.cookies.dto.letter.response.LetterWriteListResponse;
@@ -132,11 +131,8 @@ public class LetterService {
     }
 
     @Transactional
-    public Map<String, List<LetterMapResponse>> getLetterWithinRadius(LetterMapStringRequest letterMapStringRequest) {
+    public Map<String, List<LetterMapResponse>> getLetterWithinRadius(LetterMapRequest letterMapRequest) {
         Map<String, List<LetterMapResponse>> resultLetterList = new HashMap<>();
-        log.info("[LetterService] Before Type: {}", letterMapStringRequest.getStartX().getClass().getName());
-        LetterMapRequest letterMapRequest = letterMapStringRequest.toMapRequest();
-        log.info("[LetterService] After Type: {}", letterMapRequest.getStartX().getClass().getName());
 
         log.info("[LetterService] Find All Letter");
         List<LetterMapResponse> letterList = letterRepository.findByXBetweenAndYBetween(letterMapRequest.getStartX(), letterMapRequest.getEndX(), letterMapRequest.getStartY(), letterMapRequest.getEndY()).stream()
