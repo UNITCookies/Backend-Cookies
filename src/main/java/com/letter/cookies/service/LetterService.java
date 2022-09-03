@@ -134,17 +134,17 @@ public class LetterService {
     @Transactional
     public Map<String, List<LetterMapResponse>> getLetterWithinRadius(LetterMapStringRequest letterMapStringRequest) {
         Map<String, List<LetterMapResponse>> resultLetterList = new HashMap<>();
-        log.debug("[LetterService] Before Type: {}", letterMapStringRequest.getStartX().getClass().getName());
+        log.info("[LetterService] Before Type: {}", letterMapStringRequest.getStartX().getClass().getName());
         LetterMapRequest letterMapRequest = letterMapStringRequest.toMapRequest();
-        log.debug("[LetterService] After Type: {}", letterMapRequest.getStartX().getClass().getName());
+        log.info("[LetterService] After Type: {}", letterMapRequest.getStartX().getClass().getName());
 
-        log.debug("[LetterService] Find All Letter");
+        log.info("[LetterService] Find All Letter");
         List<LetterMapResponse> letterList = letterRepository.findByXBetweenAndYBetween(letterMapRequest.getStartX(), letterMapRequest.getEndX(), letterMapRequest.getStartY(), letterMapRequest.getEndY()).stream()
                 .map(LetterMapResponse::new)
                 .collect(Collectors.toList());
         resultLetterList.put("all", letterList);
 
-        log.debug("[LetterService] Find Letter within radius");
+        log.info("[LetterService] Find Letter within radius");
         List<LetterMapResponse> letterListWithinRadius = letterRepository.findWithinRadius(letterMapRequest.getCurMemberX(), letterMapRequest.getCurMemberY()).stream()
                 .map(LetterMapResponse::new)
                 .collect(Collectors.toList());

@@ -78,7 +78,7 @@ public class LetterController {
 
     @PostMapping("/map")
     public ResponseEntity<CustomResponse> getLetterWithinRadius(@RequestBody LetterMapStringRequest letterMapStringRequest) {
-        log.debug("========================= Start Get Letter With Radius =========================");
+        log.info("========================= Start Get Letter With Radius =========================");
         try {
             Map<String, List<LetterMapResponse>> letterList = letterService.getLetterWithinRadius(letterMapStringRequest);
             return new CustomResponse<>(letterList).toResponseEntity();
