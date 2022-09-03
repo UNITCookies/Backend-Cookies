@@ -2,7 +2,10 @@ package com.letter.cookies.service;
 
 import com.letter.cookies.domain.base.Letter.Letter;
 import com.letter.cookies.domain.base.Letter.LetterRepository;
+import com.letter.cookies.domain.base.Member.Member;
 import com.letter.cookies.domain.base.Member.MemberRepository;
+import com.letter.cookies.domain.base.ReadLetter.ReadLetter;
+import com.letter.cookies.domain.base.ReadLetter.ReadLetterRepository;
 import com.letter.cookies.dto.letter.response.LetterDetailResponse;
 import com.letter.cookies.exception.BaseException;
 import lombok.RequiredArgsConstructor;
@@ -19,15 +22,20 @@ import static com.letter.cookies.dto.response.CustomResponseStatus.*;
 public class LetterService {
     private final LetterRepository letterRepository;
     private final MemberRepository memberRepository;
+    private final ReadLetterRepository readLetterRepository;
 
     @Transactional
     public LetterDetailResponse getById(long letterId, String user_id) throws BaseException {
-        memberRepository.findById(UUID.fromString(user_id))
+        Member member = memberRepository.findById(UUID.fromString(user_id))
                 .orElseThrow(() -> new BaseException(REQUEST_DATA_DOES_NOT_EXISTS));
         Letter letter = letterRepository.findById(letterId)
                 .orElseThrow(() -> new BaseException(REQUEST_DATA_NULL));
         letter.biteEaten();
+        if (!readLetterRepository.existsByMemberAndLetter(member, letter)) {
+            readLetterRepository.save(ReadLetter.builder().member(member).letter(letter).build());
+        }
         return LetterDetailResponse.builder().letterContent(letter.getLetterContent())
-                .letterNickname(letter.getWriterNickname()).build();
+                .letterNickname(letter.getWriterNickname()).x(letter.getXAxis())
+                .y(letter.getYAxis()).enableCount(letter.getEnableCount()).build();
     }
 }
