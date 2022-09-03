@@ -143,6 +143,7 @@ public class LetterService {
         resultLetterList.put("all", letterList);
 
         log.info("[LetterService] Find Letter within radius");
+        log.info(request.getCurMemberX() + "----------------------" + request.getCurMemberY());
         List<LetterMapResponse> letterListWithinRadius = letterRepository.findWithinRadius(request.getCurMemberX(), request.getCurMemberY(), request.getStartX(), request.getEndX(), request.getStartY(), request.getEndY()).stream()
                 .map(LetterMapResponse::new)
                 .collect(Collectors.toList());
