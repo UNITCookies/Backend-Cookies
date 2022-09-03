@@ -26,7 +26,5 @@ public interface LetterRepository extends JpaRepository<Letter, Long> {
             nativeQuery = true)
     List<Letter> findWithinRadius(Double curMemberX, Double curMemberY);
 
-//    List<Letter> findByMemberAndCreatedAt(Member member, LocalDateTime createdAt);
-
     List<Letter> findByMemberAndCreatedAtBetween(Member member, LocalDateTime startDateTime, LocalDateTime endDateTime);
 }
