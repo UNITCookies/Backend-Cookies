@@ -12,6 +12,7 @@ public enum CustomResponseStatus {
 
     // 4000번대 오류 응답 코드
     REQUEST_DATA_NULL(false, 4000, "필수 항목이 입력되지 않았습니다", HttpStatus.BAD_REQUEST),
+    REQUEST_DATA_DOES_NOT_EXISTS(false, 4002, "존재하지 않는 편지 입니다.", HttpStatus.BAD_REQUEST),
     REQUEST_USER_NOT_EXISTS(false, 4003, "사용자가 존재하지 않습니다.", HttpStatus.FORBIDDEN);
 
 

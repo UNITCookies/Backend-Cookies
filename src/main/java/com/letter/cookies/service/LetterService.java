@@ -11,8 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
-import static com.letter.cookies.dto.response.CustomResponseStatus.REQUEST_DATA_NULL;
-import static com.letter.cookies.dto.response.CustomResponseStatus.REQUEST_USER_NOT_EXISTS;
+import static com.letter.cookies.dto.response.CustomResponseStatus.*;
 
 @Service
 @RequiredArgsConstructor
@@ -24,7 +23,7 @@ public class LetterService {
     @Transactional
     public LetterDetailResponse getById(long letterId, String user_id) throws BaseException {
         memberRepository.findById(UUID.fromString(user_id))
-                .orElseThrow(() -> new BaseException(REQUEST_USER_NOT_EXISTS));
+                .orElseThrow(() -> new BaseException(REQUEST_DATA_DOES_NOT_EXISTS));
         Letter letter = letterRepository.findById(letterId)
                 .orElseThrow(() -> new BaseException(REQUEST_DATA_NULL));
         letter.biteEaten();
