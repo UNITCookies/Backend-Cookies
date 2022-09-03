@@ -30,10 +30,15 @@ public class LetterService {
                 .orElseThrow(() -> new BaseException(REQUEST_DATA_DOES_NOT_EXISTS));
         Letter letter = letterRepository.findById(letterId)
                 .orElseThrow(() -> new BaseException(REQUEST_DATA_NULL));
-        letter.biteEaten();
-        if (!readLetterRepository.existsByMemberAndLetter(member, letter)) {
+
+        if (!readLetterRepository.existsByMemberAndLetter(member, letter) && letter.getMember() != member ) {
             readLetterRepository.save(ReadLetter.builder().member(member).letter(letter).build());
+            if(member.getCookie() < 1){
+                throw new BaseException(REQUEST_NOT_ENOUGH_COOKIE);
+            }
+            letter.biteEaten();
         }
+
         return LetterDetailResponse.builder().letterContent(letter.getLetterContent())
                 .letterNickname(letter.getWriterNickname()).x(letter.getXAxis())
                 .y(letter.getYAxis()).enableCount(letter.getEnableCount()).build();
