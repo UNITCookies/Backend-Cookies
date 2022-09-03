@@ -21,10 +21,11 @@ public interface LetterRepository extends JpaRepository<Letter, Long> {
     @Query(value = "select *, (6371*acos(cos(radians(x))*cos(radians(?1))*cos(radians(?2)-radians(y)) \n" +
             "+sin(radians(x))*sin(radians(?1)))) AS distance\n" +
             "from letter\n" +
-            "having distance <= 0.25\n" +
+            "where x between ?3 and ?4 and y between ?5 and ?6\n" +
+            "having distance <= 0.4\n" +
             "order by distance DESC;",
             nativeQuery = true)
-    List<Letter> findWithinRadius(Double curMemberX, Double curMemberY);
+    List<Letter> findWithinRadius(Double curMemberX, Double curMemberY, Double startX, Double endX, Double startY, Double endY);
 
     List<Letter> findByMemberAndCreatedAtBetween(Member member, LocalDateTime startDateTime, LocalDateTime endDateTime);
 }

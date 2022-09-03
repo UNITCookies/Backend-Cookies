@@ -3,7 +3,9 @@ package com.letter.cookies.dto.letter.response;
 import com.letter.cookies.domain.base.Letter.Letter;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Getter
 @NoArgsConstructor
 public class LetterMapResponse {
