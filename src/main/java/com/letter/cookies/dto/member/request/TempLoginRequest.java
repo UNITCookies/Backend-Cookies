@@ -15,7 +15,7 @@ public class TempLoginRequest {
     @Size(min=3, max=10)
     private final String memberName;
     @NotBlank
-    @Size(min=3, max=10)
+    @Size(min=3, max=20)
     private final String memberPassword;
 
     public Member toEntity(TempLoginRequest tempLoginRequest){
