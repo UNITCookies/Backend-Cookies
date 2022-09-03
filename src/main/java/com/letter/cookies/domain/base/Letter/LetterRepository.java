@@ -22,7 +22,7 @@ public interface LetterRepository extends JpaRepository<Letter, Long> {
             "+sin(radians(x))*sin(radians(?1)))) AS distance\n" +
             "from letter\n" +
             "where x between ?3 and ?4 and y between ?5 and ?6\n" +
-            "having distance <= 7.4\n" +
+            "having distance <= 0.25\n" +
             "order by distance DESC;",
             nativeQuery = true)
     List<Letter> findWithinRadius(Double curMemberX, Double curMemberY, Double startX, Double endX, Double startY, Double endY);
