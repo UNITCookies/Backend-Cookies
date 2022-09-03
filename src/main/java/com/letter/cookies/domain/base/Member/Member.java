@@ -34,4 +34,8 @@ public class Member extends BaseEntity {
         this.memberName = memberName;
         this.memberPassword = memberPassword;
     }
+
+    public void cookieSpent(){
+        this.cookie--;
+    }
 }
