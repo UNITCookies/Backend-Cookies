@@ -58,8 +58,6 @@ public class LetterController {
         }catch (BaseException e){
             return new CustomResponse<>(e.getStatus()).toResponseEntity();
         }
-
-
     }
 
     @GetMapping("/{letterId}")
@@ -68,6 +66,19 @@ public class LetterController {
             throws BaseException {
         try {
             LetterDetailResponse letterDetailResponse = letterService.getById(letterId, memberId);
+            return new CustomResponse<>(letterDetailResponse, SUCCESS).toResponseEntity();
+        } catch (BaseException e) {
+            return new CustomResponse<>(e.getStatus()).toResponseEntity();
+        }
+
+    }
+
+    @GetMapping("/{letterId}")
+    public ResponseEntity<CustomResponse> getReadLetterDetail(@PathVariable long letterId,
+                                                          @RequestParam UUID memberId)
+            throws BaseException {
+        try {
+            LetterDetailResponse letterDetailResponse = letterService.getReadLetterById(letterId, memberId);
             return new CustomResponse<>(letterDetailResponse, SUCCESS).toResponseEntity();
         } catch (BaseException e) {
             return new CustomResponse<>(e.getStatus()).toResponseEntity();
