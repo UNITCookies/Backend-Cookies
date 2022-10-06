@@ -66,7 +66,7 @@ jobs:
           aws s3 cp \
           --region ap-northeast-2 \
           --acl private \
-          ./cookies-build.zip s3://cookies-deploy/
+          ./cookies-build.zip s3://cookies-api-deploy/
           
       # Deploy
       - name: Deploy
@@ -75,8 +75,8 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: |
           aws deploy create-deployment \
-          --application-name 	cookies-code-deploy \
+          --application-name 	cookies-api \
           --deployment-group-name cookies-deploy-group \
           --file-exists-behavior OVERWRITE \
-          --s3-location bucket=cookies-deploy,bundleType=zip,key=cookies-build.zip \
+          --s3-location bucket=cookies-api-deploy,bundleType=zip,key=cookies-build.zip \
           --region ap-northeast-2
