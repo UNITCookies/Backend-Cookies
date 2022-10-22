@@ -1,15 +1,10 @@
 package com.letter.cookies.domain.base.Member;
 
 import com.letter.cookies.domain.base.BaseEntity;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.Type;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.UUID;
 
 @Getter
@@ -31,7 +26,9 @@ public class Member extends BaseEntity {
 
     private String identifier;
 
-    private Long cookie;
+    private long cookie;   // 편지를 읽을 수 있는 (우유) 개수
+
+    private long memberWriteCountPerDay;   // 하루 동안 작성한 편지 개수 -> 하루마다 0으로 업데이트
 
     @Builder
     public Member(String memberName, String memberPassword, String memberEmail, String identifier, Long cookie){
@@ -52,5 +49,9 @@ public class Member extends BaseEntity {
 
     public void updateCookie() {
         this.cookie += 1;
+    }
+
+    public void updateWriteCountPerDay(long memberWriteCountPerDay) {
+        this.memberWriteCountPerDay = memberWriteCountPerDay;
     }
 }
