@@ -71,5 +71,5 @@ jobs:
           --application-name 	cookies \
           --deployment-group-name cookies-deploy-group \
           --file-exists-behavior OVERWRITE \
-          --s3-location bucket=cookies-deploy,bundleType=zip,key=cookies-build.zip \
+          --s3-location bucket=cookies-deploy-bucket,bundleType=zip,key=cookies-build.zip \
           --region ap-northeast-2
