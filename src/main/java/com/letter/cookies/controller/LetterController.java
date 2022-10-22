@@ -73,7 +73,7 @@ public class LetterController {
 
     }
 
-    @GetMapping("/{letterId}")
+    @GetMapping("/myletter/{letterId}")
     public ResponseEntity<CustomResponse> getReadLetterDetail(@PathVariable long letterId,
                                                           @RequestParam UUID memberId)
             throws BaseException {
