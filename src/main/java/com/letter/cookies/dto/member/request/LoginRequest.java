@@ -20,7 +20,6 @@ public class LoginRequest {
     @Email
     private String memberEmail;
 
-    private String memberPassword;
 
     @NotBlank
     private String identifier;
@@ -28,7 +27,6 @@ public class LoginRequest {
     public Member toEntity(Long cookie){
         return Member.builder()
                 .memberName(memberName)
-                .memberPassword(memberPassword)
                 .memberEmail(memberEmail)
                 .identifier(identifier)
                 .cookie(cookie)
