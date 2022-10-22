@@ -27,12 +27,23 @@ public class Member extends BaseEntity {
 
     private String memberPassword;
 
+    private String memberEmail;
+
+    private String identifier;
+
     private Long cookie;
 
     @Builder
-    public Member(String memberName, String memberPassword){
+    public Member(String memberName, String memberPassword, String memberEmail, String identifier, Long cookie){
         this.memberName = memberName;
         this.memberPassword = memberPassword;
+        this.memberEmail = memberEmail;
+        this.identifier = identifier;
+        this.cookie = (cookie == null) ? 0 : cookie;
+    }
+
+    public void update(String memberName) {
+        this.memberName = memberName;
     }
 
     public void cookieSpent() {
