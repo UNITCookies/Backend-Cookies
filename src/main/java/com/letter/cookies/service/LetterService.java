@@ -150,7 +150,7 @@ public class LetterService {
         LetterMapRequest request = letterMapRequest.setStartXY();
 
         log.info("[LetterService] Find All Letter");
-        List<LetterMapResponse> letterList = letterRepository.findByXBetweenAndYBetween(request.getStartX(), request.getEndX(), request.getStartY(), request.getEndY()).stream()
+        List<LetterMapResponse> letterList = letterRepository.findWithinMap(request.getStartX(), request.getEndX(), request.getStartY(), request.getEndY()).stream()
                 .map(LetterMapResponse::new)
                 .collect(Collectors.toList());
         resultLetterList.put("all", letterList);
