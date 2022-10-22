@@ -122,6 +122,19 @@ public class LetterService {
 
     }
 
+    @Transactional
+    public LetterDetailResponse getReadLetterById(long letterId, UUID memberId) throws BaseException {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new BaseException(REQUEST_DATA_DOES_NOT_EXISTS));
+        Letter letter = letterRepository.findById(letterId)
+                .orElseThrow(() -> new BaseException(REQUEST_DATA_NULL));
+
+        return LetterDetailResponse.builder().letterContent(letter.getLetterContent())
+                .letterNickname(letter.getWriterNickname()).x(letter.getX())
+                .y(letter.getY()).enableCount(letter.getEnableCount()).build();
+
+    }
+
     public List<LetterReadListResponse> getByMemberReadLetter(UUID userId) throws BaseException {
         Member member = memberRepository.findById(userId)
                 .orElseThrow(() -> new BaseException(REQUEST_USER_NOT_EXISTS));
@@ -143,7 +156,6 @@ public class LetterService {
         resultLetterList.put("all", letterList);
 
         log.info("[LetterService] Find Letter within radius");
-        log.info(request.getCurMemberX() + "----------------------" + request.getCurMemberY());
         List<LetterMapResponse> letterListWithinRadius = letterRepository.findWithinRadius(request.getCurMemberX(), request.getCurMemberY(), request.getStartX(), request.getEndX(), request.getStartY(), request.getEndY()).stream()
                 .map(LetterMapResponse::new)
                 .collect(Collectors.toList());
