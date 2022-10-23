@@ -16,7 +16,6 @@ import com.letter.cookies.dto.letter.response.LetterDetailResponse;
 import com.letter.cookies.exception.BaseException;
 
 import com.letter.cookies.external.ExternalRestful;
-import com.letter.cookies.external.response.KakaoMapApiResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
