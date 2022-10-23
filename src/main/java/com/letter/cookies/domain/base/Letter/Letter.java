@@ -42,13 +42,18 @@ public class Letter extends BaseEntity {
     private Boolean checkExist;   // 작성된 편지의 읽을 수 있는 횟수가 전부 사용된 경우 -> 노출을 하지 않을 상태 체크
 
     @Builder
-    public Letter(Member member, String writerNickname, String letterContent, Double x, Double y, Long enableCount) {
+    public Letter(Member member, String writerNickname, String letterTitle, String letterContent,  String letterCategory,
+                  String letterImageUrl, Double x, Double y, Long enableCount, Boolean checkExist) {
         this.member = member;
         this.writerNickname = writerNickname;
+        this.letterTitle = letterTitle;
         this.letterContent = letterContent;
+        this.letterCategory = letterCategory;
+        this.letterImageUrl = letterImageUrl;
         this.x = x;
         this.y = y;
         this.enableCount = enableCount;
+        this.checkExist = checkExist;
     }
 
     public void biteEaten() {
