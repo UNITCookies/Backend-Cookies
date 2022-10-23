@@ -1,7 +1,5 @@
 package com.letter.cookies.external;
 
-import com.fasterxml.jackson.databind.util.JSONPObject;
-import com.letter.cookies.external.response.KakaoMapApiResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONArray;
