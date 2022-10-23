@@ -25,13 +25,21 @@ public class Letter extends BaseEntity {
 
     private String writerNickname;
 
+    private String letterTitle;
+
     private String letterContent;
+
+    private String letterCategory;
+
+    private String letterImageUrl;
 
     private Double x;
 
     private Double y;
 
-    private Long enableCount;
+    private long enableCount;   // 각 편지를 읽을 수 있는 횟수 : 초기 편지 생성 시 4로 고정
+
+    private Boolean checkExist;   // 작성된 편지의 읽을 수 있는 횟수가 전부 사용된 경우 -> 노출을 하지 않을 상태 체크
 
     @Builder
     public Letter(Member member, String writerNickname, String letterContent, Double x, Double y, Long enableCount) {
@@ -41,7 +49,6 @@ public class Letter extends BaseEntity {
         this.x = x;
         this.y = y;
         this.enableCount = enableCount;
-
     }
 
     public void biteEaten() {
