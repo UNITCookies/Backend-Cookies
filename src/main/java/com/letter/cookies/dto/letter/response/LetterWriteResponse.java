@@ -10,6 +10,7 @@ public class LetterWriteResponse {
 
     private Long letterId;
     private String writerNickname;
+    private String letterTitle;
     private String letterContent;
     private Double x;
     private Double y;
@@ -19,6 +20,7 @@ public class LetterWriteResponse {
     @Builder
     public LetterWriteResponse(Letter letter, Member member) {
         this.letterId = letter.getLetterId();
+        this.letterTitle = letter.getLetterTitle();
         this.writerNickname = letter.getWriterNickname();
         this.letterContent = letter.getLetterContent();
         this.x = letter.getX();

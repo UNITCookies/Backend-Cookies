@@ -15,6 +15,8 @@ import com.letter.cookies.domain.base.ReadLetter.ReadLetterRepository;
 import com.letter.cookies.dto.letter.response.LetterDetailResponse;
 import com.letter.cookies.exception.BaseException;
 
+import com.letter.cookies.external.ExternalRestful;
+import com.letter.cookies.external.response.KakaoMapApiResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -45,6 +47,7 @@ public class LetterService {
     private final MemberRepository memberRepository;
     private final LetterRepository letterRepository;
     private final ReadLetterRepository readLetterRepository;
+    private final ExternalRestful externalRestful;
 
     static final int LETTER_MIN_LENGTH = 1;
     static final int LETTER_MAX_LENGTH = 500;
@@ -58,6 +61,14 @@ public class LetterService {
         }
         if (letterWriteDto.getLetterContent().length() > LETTER_MAX_LENGTH) {
             throw new BaseException(EXCEED_LETTER_MAX_LENGTH);
+        }
+
+        List<String> targetAddressList = new ArrayList<>();
+        if (letterWriteDto.getLetterTitle() == null) {
+            String addressName = externalRestful.getRegionAddress(externalRestful.conversion2(
+                    letterWriteDto.getX(), letterWriteDto.getY()
+            ));
+            letterWriteDto.setLetterTitle(addressName);
         }
 
         Member member = memberRepository.findById(memberId).get();
