@@ -65,7 +65,7 @@ public class LetterService {
 
         List<String> targetAddressList = new ArrayList<>();
         if (letterWriteDto.getLetterTitle() == null) {
-            String addressName = externalRestful.getRegionAddress(externalRestful.conversion2(
+            String addressName = externalRestful.getRegionAddress(externalRestful.conversion(
                     letterWriteDto.getX(), letterWriteDto.getY()
             ));
             letterWriteDto.setLetterTitle(addressName);
