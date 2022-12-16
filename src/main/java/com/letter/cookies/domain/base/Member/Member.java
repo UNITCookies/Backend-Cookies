@@ -30,8 +30,6 @@ public class Member extends BaseEntity {
 
     private long memberWriteCountPerDay;   // 하루 동안 작성한 편지 개수 -> 하루마다 0으로 업데이트
 
-    private Long memberWriteCountPerDay;
-
     @Builder
     public Member(String memberName, String memberPassword, String memberEmail, String identifier, Long cookie, Long memberWriteCountPerDay){
         this.memberName = memberName;
