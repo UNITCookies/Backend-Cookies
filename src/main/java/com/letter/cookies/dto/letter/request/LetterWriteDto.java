@@ -11,22 +11,28 @@ public class LetterWriteDto {
     @Setter
     private String writerNickname;
 
+    @Setter
+    private String letterTitle;
+
     private String letterContent;
 
-    private Double x;
+//    private Double x;
+//    private Double y;
+    private String x;
 
-    private Double y;
+    private String y;
 
-    private Long enableCount;
+    private long enableCount;
 
     public Letter toEntity(Member member) {
 
         return Letter.builder()
                 .member(member)
                 .writerNickname(this.writerNickname)
+                .letterTitle(letterTitle)
                 .letterContent(this.letterContent)
-                .x(this.x)
-                .y(this.y)
+                .x(Double.valueOf(this.x))
+                .y(Double.valueOf(this.y))
                 .enableCount(4L)
                 .build();
     }

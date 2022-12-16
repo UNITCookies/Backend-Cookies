@@ -15,6 +15,7 @@ import com.letter.cookies.domain.base.ReadLetter.ReadLetterRepository;
 import com.letter.cookies.dto.letter.response.LetterDetailResponse;
 import com.letter.cookies.exception.BaseException;
 
+import com.letter.cookies.external.ExternalRestful;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -45,9 +46,29 @@ public class LetterService {
     private final MemberRepository memberRepository;
     private final LetterRepository letterRepository;
     private final ReadLetterRepository readLetterRepository;
+    private final ExternalRestful externalRestful;
+
+    static final int LETTER_MIN_LENGTH = 1;
+    static final int LETTER_MAX_LENGTH = 500;
 
     @Transactional(readOnly = false)
     public LetterWriteResponse writeLetter(UUID memberId, LetterWriteDto letterWriteDto) throws BaseException {
+
+        // 편지 글자수 제한 체크
+        if (letterWriteDto.getLetterContent().length() < LETTER_MIN_LENGTH) {
+            throw new BaseException(UNDER_LETTER_MIN_LENGTH);
+        }
+        if (letterWriteDto.getLetterContent().length() > LETTER_MAX_LENGTH) {
+            throw new BaseException(EXCEED_LETTER_MAX_LENGTH);
+        }
+
+        List<String> targetAddressList = new ArrayList<>();
+        if (letterWriteDto.getLetterTitle() == null) {
+            String addressName = externalRestful.getRegionAddress(externalRestful.conversion(
+                    letterWriteDto.getX(), letterWriteDto.getY()
+            ));
+            letterWriteDto.setLetterTitle(addressName);
+        }
 
         Member member = memberRepository.findById(memberId).get();
 
@@ -122,6 +143,19 @@ public class LetterService {
 
     }
 
+    @Transactional
+    public LetterDetailResponse getReadLetterById(long letterId, UUID memberId) throws BaseException {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new BaseException(REQUEST_DATA_DOES_NOT_EXISTS));
+        Letter letter = letterRepository.findById(letterId)
+                .orElseThrow(() -> new BaseException(REQUEST_DATA_NULL));
+
+        return LetterDetailResponse.builder().letterContent(letter.getLetterContent())
+                .letterNickname(letter.getWriterNickname()).x(letter.getX())
+                .y(letter.getY()).enableCount(letter.getEnableCount()).build();
+
+    }
+
     public List<LetterReadListResponse> getByMemberReadLetter(UUID userId) throws BaseException {
         Member member = memberRepository.findById(userId)
                 .orElseThrow(() -> new BaseException(REQUEST_USER_NOT_EXISTS));
@@ -137,13 +171,12 @@ public class LetterService {
         LetterMapRequest request = letterMapRequest.setStartXY();
 
         log.info("[LetterService] Find All Letter");
-        List<LetterMapResponse> letterList = letterRepository.findByXBetweenAndYBetween(request.getStartX(), request.getEndX(), request.getStartY(), request.getEndY()).stream()
+        List<LetterMapResponse> letterList = letterRepository.findWithinMap(request.getStartX(), request.getEndX(), request.getStartY(), request.getEndY()).stream()
                 .map(LetterMapResponse::new)
                 .collect(Collectors.toList());
         resultLetterList.put("all", letterList);
 
         log.info("[LetterService] Find Letter within radius");
-        log.info(request.getCurMemberX() + "----------------------" + request.getCurMemberY());
         List<LetterMapResponse> letterListWithinRadius = letterRepository.findWithinRadius(request.getCurMemberX(), request.getCurMemberY(), request.getStartX(), request.getEndX(), request.getStartY(), request.getEndY()).stream()
                 .map(LetterMapResponse::new)
                 .collect(Collectors.toList());

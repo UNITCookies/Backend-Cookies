@@ -8,9 +8,11 @@ import com.letter.cookies.dto.member.response.MemberInfoResponse;
 import com.letter.cookies.dto.member.response.TempLoginResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -39,5 +41,16 @@ public class MemberService {
     public MemberInfoResponse getMemberInfo(String identifier) {
         Member member = memberRepository.findByIdentifier(identifier);
         return new MemberInfoResponse(member);
+    }
+
+    // 매일 정각 memberWriteCountPerDay 0으로 업데이트
+    @Transactional
+    @Scheduled(cron = "0 0 0 * * *")
+    public void initMemberWriteLetterCount() {
+        List<Member> memberList = memberRepository.findAll();
+        memberList.forEach(member -> {
+            member.updateWriteCountPerDay(0);
+        });
+        memberRepository.saveAll(memberList);
     }
 }
