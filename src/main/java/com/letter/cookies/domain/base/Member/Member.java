@@ -33,13 +33,16 @@ public class Member extends BaseEntity {
 
     private Long cookie;
 
+    private Long memberWriteCountPerDay;
+
     @Builder
-    public Member(String memberName, String memberPassword, String memberEmail, String identifier, Long cookie){
+    public Member(String memberName, String memberPassword, String memberEmail, String identifier, Long cookie, Long memberWriteCountPerDay){
         this.memberName = memberName;
         this.memberPassword = memberPassword;
         this.memberEmail = memberEmail;
         this.identifier = identifier;
         this.cookie = (cookie == null) ? 0 : cookie;
+        this.memberWriteCountPerDay = memberWriteCountPerDay;
     }
 
     public void update(String memberName) {
