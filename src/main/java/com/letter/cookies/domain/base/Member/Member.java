@@ -31,12 +31,13 @@ public class Member extends BaseEntity {
     private long memberWriteCountPerDay;   // 하루 동안 작성한 편지 개수 -> 하루마다 0으로 업데이트
 
     @Builder
-    public Member(String memberName, String memberPassword, String memberEmail, String identifier, Long cookie){
+    public Member(String memberName, String memberPassword, String memberEmail, String identifier, Long cookie, Long memberWriteCountPerDay){
         this.memberName = memberName;
         this.memberPassword = memberPassword;
         this.memberEmail = memberEmail;
         this.identifier = identifier;
         this.cookie = (cookie == null) ? 0 : cookie;
+        this.memberWriteCountPerDay = memberWriteCountPerDay;
     }
 
     public void update(String memberName) {
